@@ -1,6 +1,6 @@
 import { useCharacters } from "@/hooks/useCharacters";
 import { useEffectOnce } from "@/hooks/useEffectOnce";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getCharacters } from "rickmortyapi";
 import Box from "./Box";
 import CharacterCard from "./CharacterCard";
@@ -53,6 +53,8 @@ const Characters = ({ page, initialProps }: CharactersProps) => {
 	const [mounted, setMounted] = useState(false);
 	useEffectOnce(() => setMounted(true));
 
+	const [lastPage, setLastPage] = useState<number>(page);
+
 	// initial data, then prefetched page
 	// this is the data displayed
 	const [data, setData] = useState<Character[] | undefined>(initialProps.data.results);
@@ -62,16 +64,17 @@ const Characters = ({ page, initialProps }: CharactersProps) => {
 	const { characters, isError, mutate } = useCharacters(page + 1);
 
 	// fetch the next page, mutate SWR data
-	const fetchCharacters = useCallback(async () => {
+	const fetchCharacters = async (page: number = 1) => {
 		setData(characters);
-		const res = await getCharacters({ page: page + 1 });
+		const res = await getCharacters({ page });
 		mutate(res, false);
-	}, [page, mutate]);
+	};
 
 	// execute fetchCharacters every time the page changes
 	useEffect(() => {
 		if (!mounted) return;
-		fetchCharacters();
+
+		fetchCharacters(page < lastPage ? page - 1 : page);
 	}, [page, fetchCharacters]);
 
 	if (!data || !mounted) return <div>Loading..</div>;
@@ -123,10 +126,10 @@ const Gallery = ({ initialProps }: { initialProps: ApiResponse<Info<Character[]>
 					gap: 10,
 				}}>
 				<Subtitle>Page {page}</Subtitle>
-				<Control onClick={() => setPage((page) => page - 1)}>
+				<Control onClick={() => setPage((page) => (page > 1 ? page - 1 : page))} disabled={page === 1}>
 					<LeftArrow />
 				</Control>
-				<Control onClick={() => setPage((page) => page + 1)}>
+				<Control onClick={() => setPage((page) => (page < 42 ? page + 1 : page))} disabled={page === 42}>
 					<RightArrow />
 				</Control>
 			</Box>
