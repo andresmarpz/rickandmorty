@@ -1,8 +1,22 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import { globalCss } from "@/stitches.config";
+import type { AppProps } from "next/app";
+
+const globalStyles = globalCss({
+	"*": {
+		boxSizing: "border-box",
+	},
+	"html, body": {
+		// backgroundColor: theme.colors.background,
+		padding: 0,
+		margin: 0,
+		fontFamily: `-apple-system, Inter, BlinkMacSystemFont, "Helvetica Neue", sans-serif`,
+	},
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+	globalStyles();
+
+	return <Component {...pageProps} />;
 }
 
-export default MyApp
+export default MyApp;
