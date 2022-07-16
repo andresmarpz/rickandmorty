@@ -64,7 +64,7 @@ const Characters = ({ page, initialProps }: CharactersProps) => {
 	const { characters, isError, mutate } = useCharacters(page + 1);
 
 	// fetch the next page, mutate SWR data
-	const fetchCharacters = async (page: number = 1) => {
+	const fetchCharacters = async (page = 1) => {
 		setData(characters);
 		const res = await getCharacters({ page });
 		mutate(res, false);

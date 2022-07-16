@@ -4,7 +4,7 @@ import useSWR from 'swr';
 
 import type { ApiResponse, Character, Info } from 'rickmortyapi/dist/interfaces';
 
-export const useCharacters = (page: number = 1): {
+export const useCharacters = (page = 1): {
 	characters: Character[] | undefined;
 	mutate: KeyedMutator<ApiResponse<Info<Character[]>>>;
 	isLoading: boolean;

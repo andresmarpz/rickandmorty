@@ -34,7 +34,7 @@ const Section = styled("section", {
 	textAlign: "center",
 });
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async () => {
 	const initialProps = await getCharacters();
 
 	return {
@@ -48,7 +48,7 @@ interface Props {
 	initialProps: ApiResponse<Info<Character[]>>;
 }
 
-const Home: NextPage<Props> = ({ initialProps }) => {
+const Home: NextPage<Props> = ({ initialProps }: Props) => {
 	return (
 		<Layout>
 			<Head>

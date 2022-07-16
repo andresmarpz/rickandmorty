@@ -4,7 +4,7 @@ import useSWR from 'swr';
 
 import type { ApiResponse, Episode, Info } from 'rickmortyapi/dist/interfaces';
 
-export const useEpisodes = (page: number = 1): {
+export const useEpisodes = (page = 1): {
 	characters: Episode[] | undefined;
 	mutate: KeyedMutator<ApiResponse<Info<Episode[]>>>;
 	isLoading: boolean;
