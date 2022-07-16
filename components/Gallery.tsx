@@ -7,6 +7,8 @@ import CharacterCard from "./CharacterCard";
 
 import { styled } from "@/stitches.config";
 import type { ApiResponse, Character, Info } from "rickmortyapi/dist/interfaces";
+import LeftArrow from "./svgs/LeftArrow";
+import RightArrow from "./svgs/RightArrow";
 
 interface CharactersProps {
 	page: number;
@@ -23,6 +25,27 @@ const Grid = styled("div", {
 	},
 	"@lg": {
 		gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+	},
+});
+
+const Subtitle = styled("h2", {
+	fontSize: "18px",
+	fontWeight: 400,
+});
+
+const Control = styled("button", {
+	background: "$gray3",
+	border: "1px solid $gray6",
+	borderRadius: 4,
+	padding: "4px 8px",
+	cursor: "pointer",
+
+	transition: "all .1s ease",
+	"&:hover": {
+		backgroundColor: "$gray2",
+	},
+	"&:focus": {
+		borderColor: "$gray5",
 	},
 });
 
@@ -92,9 +115,21 @@ const Gallery = ({ initialProps }: { initialProps: ApiResponse<Info<Character[]>
 	};
 
 	return (
-		<Box>
-			Current page: {page}
-			<button onClick={() => setPage((page) => page + 1)}>Next page</button>
+		<Box css={{ color: "$gray12" }}>
+			<Box
+				css={{
+					display: "flex",
+					alignItems: "center",
+					gap: 10,
+				}}>
+				<Subtitle>Page {page}</Subtitle>
+				<Control onClick={() => setPage((page) => page - 1)}>
+					<LeftArrow />
+				</Control>
+				<Control onClick={() => setPage((page) => page + 1)}>
+					<RightArrow />
+				</Control>
+			</Box>
 			{getComponent()}
 		</Box>
 	);

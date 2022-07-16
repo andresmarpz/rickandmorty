@@ -15,6 +15,13 @@ const Header = styled("header", {
 	padding: 16,
 });
 
+const Separator = styled("hr", {
+	border: 0,
+	borderTop: "1px solid $gray5",
+	maxWidth: "75%",
+	margin: "48px auto",
+});
+
 const Section = styled("section", {
 	position: "relative",
 
@@ -54,8 +61,11 @@ const Home: NextPage<Props> = ({ initialProps }) => {
 					<Image src="/assets/images/header.png" width={400} height={100} />
 				</Header>
 				<Section></Section>
-				<hr />
-				<Gallery initialProps={initialProps} />
+				<Separator />
+				<section>
+					<h1>Gallery</h1>
+					<Gallery initialProps={initialProps} />
+				</section>
 			</main>
 		</Layout>
 	);
