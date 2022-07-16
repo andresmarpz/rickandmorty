@@ -5,6 +5,8 @@ import React, { useState } from "react";
 const StyledImage = styled(Image, {
 	transition: "120ms ease-in-out",
 	transitionProperty: "filter transform opacity",
+	borderRadius: 5,
+	boxShadow: "",
 	variants: {
 		blur: {
 			false: {

@@ -1,4 +1,4 @@
-import { Character } from "@/types";
+import { Character } from "rickmortyapi/dist/interfaces";
 import BlurImage from "./BlurImage";
 import Box from "./Box";
 
@@ -7,14 +7,14 @@ const CharacterCard = ({ character }: { character: Character }) => {
 		<Box
 			key={character.id}
 			css={{
+				position: "relative",
 				display: "flex",
 				flexDirection: "column",
 				alignItems: "center",
-				border: "1px solid $gray4",
-				borderRadius: 4,
+				width: "auto",
+				aspectRatio: "8 / 7",
 			}}>
-			<span>{character.name}</span>
-			<BlurImage src={character.image} width={200} height={175} objectFit="cover" />
+			<BlurImage src={character.image} objectFit="cover" layout="fill" />
 		</Box>
 	);
 };
