@@ -45,8 +45,6 @@ interface Props {
 }
 
 const StyledLink = css('a', {
-    textDecoration: 'none',
-
     color: '$gray12'
 });
 
@@ -86,19 +84,18 @@ const EpisodeLink = ({ episode }: { episode: Episode }) => {
                 marginY: 4
             }}>
             <Link href={`/episode/${episode.id}`}>
-                <a
-                    className={StyledLink()}
-                    style={{
-                        textDecoration: 'underline'
-                    }}>
-                    {episode.name}
-                </a>
+                <a className={StyledLink()}>{episode.name}</a>
             </Link>
         </Box>
     );
 };
 
 const CharacterPage = ({ character, episodes }: Props) => {
+    const locationId = () => {
+        const url = new URL(character.origin.url);
+        return Number.parseInt(url.pathname.split('/')[3]);
+    };
+
     return (
         <>
             <Header />
@@ -155,7 +152,15 @@ const CharacterPage = ({ character, episodes }: Props) => {
                 </Row>
                 <Row>
                     <Field>Origin</Field>
-                    <Value>{character.origin.name}</Value>
+                    <Value>
+                        {character.origin.name === 'unknown' ? (
+                            character.origin.name
+                        ) : (
+                            <Link href={`/location/${locationId()}`}>
+                                <a className={StyledLink()}>{character.origin.name}</a>
+                            </Link>
+                        )}
+                    </Value>
                 </Row>
                 <Row>
                     <Field>Episodes</Field>
