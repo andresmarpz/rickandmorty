@@ -1,4 +1,5 @@
 import { styled } from '@/stitches.config';
+import { CSS } from '@stitches/react';
 
 const StyledSeparator = styled('hr', {
     border: 0,
@@ -8,13 +9,15 @@ const StyledSeparator = styled('hr', {
 
 interface Props {
     width?: string | number;
+    css?: CSS;
 }
 
-const Separator = ({ width = 80 }: Props) => {
+const Separator = ({ width = 100, css }: Props) => {
     return (
         <StyledSeparator
             css={{
-                maxWidth: `${width}%`
+                maxWidth: `${width}%`,
+                ...css
             }}></StyledSeparator>
     );
 };

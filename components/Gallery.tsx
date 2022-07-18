@@ -1,53 +1,58 @@
-import { styled } from "@/stitches.config";
-import type { Character, Episode, Location } from "rickmortyapi/dist/interfaces";
+import { styled } from '@/stitches.config';
+import type { Character, Episode, Location } from 'rickmortyapi/dist/interfaces';
 
-import * as Tabs from "@radix-ui/react-tabs";
-import { useState } from "react";
-import CharactersTab from "./characters/CharactersTab";
-import EpisodesTab from "./episodes/EpisodesTab";
-import LocationsTab from "./locations/LocationsTab";
+import * as Tabs from '@radix-ui/react-tabs';
+import { useState } from 'react';
+import CharactersTab from './characters/CharactersTab';
+import EpisodesTab from './episodes/EpisodesTab';
+import LocationsTab from './locations/LocationsTab';
 
 const Root = styled(Tabs.Root, {
-	width: "100%",
-	paddingBottom: 40,
+    width: '100%',
+    paddingBottom: 40
 });
 const List = styled(Tabs.List, {
-	display: "flex",
+    display: 'flex'
 });
 
 const Trigger = styled(Tabs.Trigger, {
-	all: "unset",
+    all: 'unset',
 
-	color: "$gray10",
-	padding: 6,
-	display: "flex",
-	justifyContent: "center",
-	alignItems: "center",
-	flex: 1,
-	"&:hover": { color: "$gray12" },
-	'&[data-state="active"]': {
-		color: "$gray12",
-		boxShadow: "inset 0 -1px 0 0 currentColor, 0 1px 0 0 currentColor",
-	},
-	"&:focus": { position: "relative", boxShadow: `0 0 0 2px black` },
+    color: '$gray10',
+    padding: 6,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    '&:hover': { color: '$gray12' },
+    '&[data-state="active"]': {
+        color: '$gray12',
+        boxShadow: 'inset 0 -1px 0 0 currentColor, 0 1px 0 0 currentColor'
+    },
+    '&:focus': { position: 'relative', boxShadow: `0 0 0 2px black` }
 });
 
 const Content = styled(Tabs.Content, {
-	marginTop: 8,
+    marginTop: 8
+});
+
+const Span = styled('span', {
+    color: '$gray10',
+    marginLeft: 4
 });
 
 interface Props {
-	initialProps: {
-		characters: Character[];
-		locations: Location[];
-		episodes: Episode[];
-	};
+    initialProps: {
+        characters: Character[];
+        locations: Location[];
+        episodes: Episode[];
+    };
 }
 
 const Gallery = ({ initialProps }: Props) => {
-	const [value, setValue] = useState<string>("characters");
+    const [value, setValue] = useState<string>('characters');
 
-	/*
+    /*
 	
 		In this case I opted to keep tabs mounted but hidden.
 		This is because I need to keep the tabs mounted in the DOM
@@ -58,23 +63,29 @@ const Gallery = ({ initialProps }: Props) => {
 	
 	*/
 
-	return (
-		<Root defaultValue="characters" onValueChange={(value) => setValue(value)}>
-			<List>
-				<Trigger value="characters">Characters</Trigger>
-				<Trigger value="locations">Locations</Trigger>
-				<Trigger value="episodes">Episodes</Trigger>
-			</List>
-			<Content value="characters" forceMount hidden={value !== "characters"}>
-				<CharactersTab characters={initialProps.characters} />
-			</Content>
-			<Content value="locations" forceMount hidden={value !== "locations"}>
-				<LocationsTab locations={initialProps.locations} />
-			</Content>
-			<Content value="episodes" forceMount hidden={value !== "episodes"}>
-				<EpisodesTab episodes={initialProps.episodes} />
-			</Content>
-		</Root>
-	);
+    return (
+        <Root defaultValue="characters" onValueChange={(value) => setValue(value)}>
+            <List>
+                <Trigger value="characters">
+                    Characters <Span>(826)</Span>
+                </Trigger>
+                <Trigger value="locations">
+                    Locations <Span>(126)</Span>
+                </Trigger>
+                <Trigger value="episodes">
+                    Episodes <Span>(51)</Span>
+                </Trigger>
+            </List>
+            <Content value="characters" forceMount hidden={value !== 'characters'}>
+                <CharactersTab characters={initialProps.characters} />
+            </Content>
+            <Content value="locations" forceMount hidden={value !== 'locations'}>
+                <LocationsTab locations={initialProps.locations} />
+            </Content>
+            <Content value="episodes" forceMount hidden={value !== 'episodes'}>
+                <EpisodesTab episodes={initialProps.episodes} />
+            </Content>
+        </Root>
+    );
 };
 export default Gallery;

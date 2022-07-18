@@ -16,7 +16,7 @@ const StyledLink = styled('a', {
 const Footer = () => {
     return (
         <>
-            <Separator width={90} />
+            <Separator />
             <Box
                 css={{
                     marginTop: 16,
