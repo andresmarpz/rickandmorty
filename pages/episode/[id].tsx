@@ -25,6 +25,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     // for some reason the type is wrong and the corrent field
     // is characterS instead of character
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const characterIds: number[] = (episode as unknown as any).characters.map((character: any) => {
         const url = new URL(character);
         return Number.parseInt(url.pathname.split('/')[3]);
@@ -41,7 +42,6 @@ interface Props {
 
 const StyledLink = css('a', {
     textDecoration: 'none',
-
     color: '$gray12'
 });
 
@@ -79,6 +79,7 @@ const EpisodePage = ({ episode, characters }: Props) => {
         <>
             <Header />
             <h1>{episode.name}</h1>
+            <h2>Type: Episode</h2>
             <Box css={{ marginTop: 32 }}>
                 <Row>
                     <Field>Code</Field>

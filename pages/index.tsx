@@ -7,6 +7,7 @@ import { getCharacters, getEpisodes, getLocations } from 'rickmortyapi';
 import Gallery from '@/components/Gallery';
 import Header from '@/components/Header';
 import Separator from '@/components/Separator';
+import { FormEvent, useState } from 'react';
 import type { Character, Episode, Location } from 'rickmortyapi/dist/interfaces';
 
 const Section = styled('section', {
@@ -35,6 +36,12 @@ export const getStaticProps: GetStaticProps = async () => {
     };
 };
 
+const Search = styled('input', {
+    border: '1px solid $gray6',
+    fontSize: 16,
+    borderRadius: 6,
+    padding: 12
+});
 interface Props {
     characters: Character[];
     locations: Location[];
@@ -42,6 +49,15 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ ...props }: Props) => {
+    const [search, setSearch] = useState<string>('');
+
+    const handleSearch = (event: FormEvent<HTMLInputElement>) => {
+        event.preventDefault();
+        if (!search.length) return;
+
+        setSearch('');
+    };
+
     return (
         <>
             <Head>
@@ -51,8 +67,17 @@ const Home: NextPage<Props> = ({ ...props }: Props) => {
             </Head>
             <main>
                 <Header />
-                <Section />
+                <Section>
+                    <Search
+                        placeholder="Search.."
+                        type="search"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        onSubmit={(e) => handleSearch(e)}
+                    />
+                </Section>
                 <Separator css={{ marginTop: 0 }} />
+
                 <section>
                     <h1 style={{ textAlign: 'center' }}>Gallery</h1>
                     <Gallery initialProps={props} />

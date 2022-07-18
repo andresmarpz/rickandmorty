@@ -82,7 +82,6 @@ const Value = styled('span', {
 const EpisodeLink = ({ episode }: { episode: Episode }) => {
     return (
         <Box
-            key={'e' + episode.id}
             css={{
                 marginY: 4
             }}>
@@ -104,6 +103,7 @@ const CharacterPage = ({ character, episodes }: Props) => {
         <>
             <Header />
             <h1>{character.name}</h1>
+            <h2>Type: Character</h2>
             <Box
                 css={{
                     display: 'flex',

@@ -67,29 +67,38 @@ const Controls = ({ page, setPage, loading, max }: Props) => {
             </Subtitle>
             <Box
                 css={{
-                    marginTop: 6,
                     display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    marginBottom: 10
+                    justifyContent: 'space-between'
                 }}>
-                <Control onClick={() => setPage(page > 1 ? page - 1 : page)} disabled={page === 1}>
-                    <LeftArrow />{' '}
-                    <Span css={{ color: page === 1 ? '$gray8' : '$gray11', marginLeft: 8 }}>
-                        prev
+                <Box
+                    css={{
+                        marginTop: 6,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        marginBottom: 10
+                    }}>
+                    <Control
+                        onClick={() => setPage(page > 1 ? page - 1 : page)}
+                        disabled={page === 1}>
+                        <LeftArrow />{' '}
+                        <Span css={{ color: page === 1 ? '$gray8' : '$gray11', marginLeft: 8 }}>
+                            prev
+                        </Span>
+                    </Control>
+                    <Control
+                        onClick={() => setPage(page < max ? page + 1 : page)}
+                        disabled={page === max}>
+                        <Span css={{ color: page === max ? '$gray8' : '$gray11', marginRight: 8 }}>
+                            next
+                        </Span>{' '}
+                        <RightArrow />
+                    </Control>
+                    <Span visible={loading}>
+                        <Spinner />
                     </Span>
-                </Control>
-                <Control
-                    onClick={() => setPage(page < max ? page + 1 : page)}
-                    disabled={page === max}>
-                    <Span css={{ color: page === max ? '$gray8' : '$gray11', marginRight: 8 }}>
-                        next
-                    </Span>{' '}
-                    <RightArrow />
-                </Control>
-                <Span visible={loading}>
-                    <Spinner />
-                </Span>
+                </Box>
+                <Box></Box>
             </Box>
         </Box>
     );
