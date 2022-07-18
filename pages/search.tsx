@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     } else {
         return {
             props: {
-                character: character.results,
+                character: character.results || null,
                 location: location.results || null,
                 episode: episode.results || null
             }
@@ -103,6 +103,14 @@ const SearchPage = ({ character, location, episode }: Props) => {
     const data = [character, location, episode].filter(
         (data) => data !== null && data !== undefined
     );
+
+    if (!data.length)
+        return (
+            <Box>
+                <Header />
+                <h1>No results found.</h1>
+            </Box>
+        );
 
     return (
         <Box>

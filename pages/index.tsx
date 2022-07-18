@@ -4,10 +4,12 @@ import Head from 'next/head';
 
 import { getCharacters, getEpisodes, getLocations } from 'rickmortyapi';
 
+import Box from '@/components/Box';
 import Gallery from '@/components/Gallery';
 import Header from '@/components/Header';
 import Separator from '@/components/Separator';
 import MagnifyingGlass from '@/components/svgs/MagnifyingGlass';
+import Spinner from '@/components/svgs/Spinner';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import type { Character, Episode, Location } from 'rickmortyapi/dist/interfaces';
@@ -41,6 +43,7 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const Form = styled('form', {
+    position: 'relative',
     backgroundColor: '#fff',
     display: 'flex',
     alignItems: 'center',
@@ -56,6 +59,14 @@ const Form = styled('form', {
             false: {
                 outline: 'none'
             }
+        },
+        disabled: {
+            true: {
+                backgroundColor: '$gray2'
+            },
+            false: {
+                backgroundColor: '#fff'
+            }
         }
     }
 });
@@ -67,6 +78,9 @@ const Search = styled('input', {
     marginLeft: 4,
     '&:focus': {
         outline: 'none'
+    },
+    '&:disabled': {
+        backgroundColor: '$gray2'
     }
 });
 interface Props {
@@ -82,6 +96,7 @@ const Home: NextPage<Props> = ({ ...props }: Props) => {
     const router = useRouter();
 
     const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
+        setLoading(true);
         event.preventDefault();
         if (!search.length) return;
 
@@ -98,16 +113,32 @@ const Home: NextPage<Props> = ({ ...props }: Props) => {
             <main>
                 <Header />
                 <Section>
-                    <Form onSubmit={(e) => handleSearch(e)} focus={focus}>
+                    <Form onSubmit={(e) => handleSearch(e)} focus={focus} disabled={loading}>
                         <MagnifyingGlass />
                         <Search
                             placeholder="Search.."
+                            disabled={loading}
                             type="search"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             onFocus={() => setFocus(true)}
                             onBlur={() => setFocus(false)}
                         />
+                        {loading && (
+                            <Box
+                                css={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    position: 'absolute',
+                                    top: '0',
+                                    left: '0',
+                                    width: '100%',
+                                    height: '100%'
+                                }}>
+                                <Spinner />
+                            </Box>
+                        )}
                     </Form>
                 </Section>
                 <Separator css={{ marginTop: 0 }} />
