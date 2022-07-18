@@ -38,7 +38,15 @@ const Trigger = styled(Tabs.Trigger, {
 });
 
 const Content = styled(Tabs.Content, {
-    marginTop: 8
+    marginTop: 8,
+    outline: 'none',
+    border: 'none',
+    boxShadow: 'none',
+    '&:focus': {
+        outline: 'none',
+        border: 'none',
+        boxShadow: 'none'
+    }
 });
 interface Props {
     initialProps: {

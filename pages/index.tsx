@@ -54,7 +54,7 @@ const Form = styled('form', {
     variants: {
         focus: {
             true: {
-                outline: '1.5px solid black'
+                boxShadow: 'hsl(0, 0%, 0%) 0px 0px 0px 1.5px'
             },
             false: {
                 outline: 'none'
@@ -118,7 +118,7 @@ const Home: NextPage<Props> = ({ ...props }: Props) => {
                         <Search
                             placeholder="Search.."
                             disabled={loading}
-                            type="search"
+                            type="text"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             onFocus={() => setFocus(true)}
