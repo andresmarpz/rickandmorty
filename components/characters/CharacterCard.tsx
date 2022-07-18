@@ -16,10 +16,10 @@ const CharacterCard = ({ character }: { character: Character }) => {
                 width: 'auto',
                 aspectRatio: '8 / 7',
                 boxShadow: `
-					0 2px 2px hsl(0deg 0% 0% / 0.065),
-					0 4px 4px hsl(0deg 0% 0% / 0.065),
-					0 8px 8px hsl(0deg 0% 0% / 0.065),
-					0 16px 16px hsl(0deg 0% 0% / 0.065)
+					0 2px 2px hsl(0deg 0% 0% / 0.045),
+					0 4px 4px hsl(0deg 0% 0% / 0.045),
+					0 8px 8px hsl(0deg 0% 0% / 0.045),
+					0 16px 16px hsl(0deg 0% 0% / 0.045)
 				`
             }}>
             <BlurImage src={character.image} objectFit="cover" layout="fill" />
