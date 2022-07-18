@@ -1,5 +1,5 @@
 import { styled } from "@/stitches.config";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Location } from "rickmortyapi/dist/interfaces";
 import Box from "./Box";
 import Controls from "./Controls";
@@ -45,9 +45,9 @@ const Control = styled("button", {
 	},
 });
 
-const LocationsTab = ({ locations: initialLocations }: Props) => {
+const LocationsTab = ({ locations: initialLocations }: Props & React.ComponentProps<"div">) => {
 	const [page, setPage] = useState<number>(1);
-	const [loading, setLoading] = useState<boolean>(false);
+	const [loading] = useState<boolean>(false);
 
 	return (
 		<Box>
