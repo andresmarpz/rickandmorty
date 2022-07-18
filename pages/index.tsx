@@ -7,11 +7,15 @@ import { getCharacters, getEpisodes, getLocations } from 'rickmortyapi';
 import Gallery from '@/components/Gallery';
 import Header from '@/components/Header';
 import Separator from '@/components/Separator';
+import MagnifyingGlass from '@/components/svgs/MagnifyingGlass';
+import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import type { Character, Episode, Location } from 'rickmortyapi/dist/interfaces';
 
 const Section = styled('section', {
     position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
 
     backgroundImage: "url('/assets/images/rick-morty.png')",
     backgroundRepeat: 'no-repeat',
@@ -36,11 +40,34 @@ export const getStaticProps: GetStaticProps = async () => {
     };
 };
 
-const Search = styled('input', {
-    border: '1px solid $gray6',
-    fontSize: 16,
+const Form = styled('form', {
+    backgroundColor: '#fff',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '20px 12px',
+    border: '1px solid $gray4',
     borderRadius: 6,
-    padding: 12
+
+    variants: {
+        focus: {
+            true: {
+                outline: '1.5px solid black'
+            },
+            false: {
+                outline: 'none'
+            }
+        }
+    }
+});
+
+const Search = styled('input', {
+    fontSize: 16,
+    padding: 8,
+    border: 'none',
+    marginLeft: 4,
+    '&:focus': {
+        outline: 'none'
+    }
 });
 interface Props {
     characters: Character[];
@@ -49,13 +76,16 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ ...props }: Props) => {
+    const [loading, setLoading] = useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
+    const [focus, setFocus] = useState<boolean>(false);
+    const router = useRouter();
 
-    const handleSearch = (event: FormEvent<HTMLInputElement>) => {
+    const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!search.length) return;
 
-        setSearch('');
+        router.push(`/search?text=${search}`);
     };
 
     return (
@@ -68,13 +98,17 @@ const Home: NextPage<Props> = ({ ...props }: Props) => {
             <main>
                 <Header />
                 <Section>
-                    <Search
-                        placeholder="Search.."
-                        type="search"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        onSubmit={(e) => handleSearch(e)}
-                    />
+                    <Form onSubmit={(e) => handleSearch(e)} focus={focus}>
+                        <MagnifyingGlass />
+                        <Search
+                            placeholder="Search.."
+                            type="search"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onFocus={() => setFocus(true)}
+                            onBlur={() => setFocus(false)}
+                        />
+                    </Form>
                 </Section>
                 <Separator css={{ marginTop: 0 }} />
 
