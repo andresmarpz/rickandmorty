@@ -20,7 +20,7 @@ const Footer = () => {
             <Box
                 css={{
                     marginTop: 16,
-                    padding: '0 12px 48px',
+                    paddingBottom: 48,
                     color: '$gray11'
                 }}>
                 <Box>

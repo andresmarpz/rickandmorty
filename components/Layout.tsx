@@ -7,7 +7,7 @@ const Layout = ({ children }: React.PropsWithChildren) => {
             css={{
                 minWidth: '250px',
                 maxWidth: '1024px',
-                padding: '0px 12px',
+                padding: '0px 18px',
                 margin: 'auto'
             }}>
             {children}

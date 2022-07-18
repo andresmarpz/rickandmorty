@@ -1,8 +1,9 @@
 import { Character } from 'rickmortyapi/dist/interfaces';
 
-import { keyframes, styled } from '@/stitches.config';
+import { css, keyframes, styled } from '@/stitches.config';
 import { blue } from '@radix-ui/colors';
 import * as Popover from '@radix-ui/react-popover';
+import Link from 'next/link';
 import { CSSProperties } from 'react';
 import BlurImage from '../BlurImage';
 import Box from '../Box';
@@ -88,6 +89,11 @@ const PopoverArrow = styled(Popover.Arrow, {
     fill: 'white'
 });
 
+const StyledLink = css({
+    color: '$gray12',
+    textUnderlineOffset: 1
+});
+
 interface PopoverProps {
     character: Character;
     children?: React.ReactNode;
@@ -147,6 +153,14 @@ const PopoverComponent = ({ character, children, css }: PopoverProps) => {
                         <Field>Origin</Field>
                         <Value>{character.origin.name}</Value>
                     </Row>
+                    <Box
+                        css={{
+                            marginTop: 4
+                        }}>
+                        <Link href={`/character/${character.id}`}>
+                            <a className={StyledLink()}>Visit character page</a>
+                        </Link>
+                    </Box>
                 </Box>
             </PopoverContent>
         </PopoverRoot>
