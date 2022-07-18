@@ -3,10 +3,10 @@ import { useEffectOnce } from "@/hooks/useEffectOnce";
 import React, { useCallback, useEffect, useState } from "react";
 import { getCharacters } from "rickmortyapi";
 import { Character } from "rickmortyapi/dist/interfaces";
-import Box from "./Box";
+import Box from "../Box";
+import Controls from "../Controls";
+import Grid from "../Grid";
 import CharacterCard from "./CharacterCard";
-import Controls from "./Controls";
-import Grid from "./Grid";
 
 interface Props {
 	characters: Character[];

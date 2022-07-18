@@ -1,6 +1,6 @@
 import { Character } from "rickmortyapi/dist/interfaces";
-import BlurImage from "./BlurImage";
-import Box from "./Box";
+import BlurImage from "../BlurImage";
+import Box from "../Box";
 
 const CharacterCard = ({ character }: { character: Character }) => {
 	return (

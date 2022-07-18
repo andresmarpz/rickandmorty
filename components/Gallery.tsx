@@ -3,12 +3,13 @@ import type { Character, Episode, Location } from "rickmortyapi/dist/interfaces"
 
 import * as Tabs from "@radix-ui/react-tabs";
 import { useState } from "react";
-import CharactersTab from "./CharactersTab";
-import EpisodesTab from "./EpisodesTab";
-import LocationsTab from "./LocationsTab";
+import CharactersTab from "./characters/CharactersTab";
+import EpisodesTab from "./episodes/EpisodesTab";
+import LocationsTab from "./locations/LocationsTab";
 
 const Root = styled(Tabs.Root, {
 	width: "100%",
+	paddingBottom: 40,
 });
 const List = styled(Tabs.List, {
 	display: "flex",
@@ -56,25 +57,24 @@ const Gallery = ({ initialProps }: Props) => {
 		moment.
 	
 	*/
+
 	return (
-		<>
-			<Root defaultValue="characters" onValueChange={(value) => setValue(value)}>
-				<List>
-					<Trigger value="characters">Characters</Trigger>
-					<Trigger value="locations">Locations</Trigger>
-					<Trigger value="episodes">Episodes</Trigger>
-				</List>
-				<Content value="characters" forceMount hidden={value !== "characters"}>
-					<CharactersTab characters={initialProps.characters} />
-				</Content>
-				<Content value="locations" forceMount hidden={value !== "locations"}>
-					<LocationsTab locations={initialProps.locations} />
-				</Content>
-				<Content value="episodes" forceMount hidden={value !== "episodes"}>
-					<EpisodesTab episodes={initialProps.episodes} />
-				</Content>
-			</Root>
-		</>
+		<Root defaultValue="characters" onValueChange={(value) => setValue(value)}>
+			<List>
+				<Trigger value="characters">Characters</Trigger>
+				<Trigger value="locations">Locations</Trigger>
+				<Trigger value="episodes">Episodes</Trigger>
+			</List>
+			<Content value="characters" forceMount hidden={value !== "characters"}>
+				<CharactersTab characters={initialProps.characters} />
+			</Content>
+			<Content value="locations" forceMount hidden={value !== "locations"}>
+				<LocationsTab locations={initialProps.locations} />
+			</Content>
+			<Content value="episodes" forceMount hidden={value !== "episodes"}>
+				<EpisodesTab episodes={initialProps.episodes} />
+			</Content>
+		</Root>
 	);
 };
 export default Gallery;
