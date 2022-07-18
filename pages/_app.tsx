@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import { globalCss } from "@/stitches.config";
 import type { AppProps } from "next/app";
 
@@ -16,7 +17,12 @@ const globalStyles = globalCss({
 function MyApp({ Component, pageProps }: AppProps) {
 	globalStyles();
 
-	return <Component {...pageProps} />;
+	return (
+		<>
+			<Component {...pageProps} />
+			<Footer />
+		</>
+	);
 }
 
 export default MyApp;
