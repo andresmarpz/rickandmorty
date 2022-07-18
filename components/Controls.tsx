@@ -44,9 +44,10 @@ interface Props {
 	page: number;
 	setPage: (page: number) => void;
 	loading: boolean;
+	max: number;
 }
 
-const Controls = ({ page, setPage, loading }: Props) => {
+const Controls = ({ page, setPage, loading, max }: Props) => {
 	return (
 		<Box>
 			<Subtitle>Page {page}</Subtitle>
@@ -60,7 +61,7 @@ const Controls = ({ page, setPage, loading }: Props) => {
 				<Control onClick={() => setPage(page > 1 ? page - 1 : page)} disabled={page === 1}>
 					<LeftArrow />
 				</Control>
-				<Control onClick={() => setPage(page < 42 ? page + 1 : page)} disabled={page === 42}>
+				<Control onClick={() => setPage(page < max ? page + 1 : page)} disabled={page === max}>
 					<RightArrow />
 				</Control>
 				<Span visible={loading}>

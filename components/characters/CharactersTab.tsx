@@ -39,7 +39,7 @@ const CharactersTab = ({ characters: initalCharacters }: Props & React.Component
 
 	return (
 		<Box>
-			<Controls page={page} setPage={setPage} loading={loading} />
+			<Controls page={page} setPage={setPage} loading={loading} max={42} />
 			<Grid>
 				{characters.map((character) => (
 					<CharacterCard key={character.id} character={character} />
