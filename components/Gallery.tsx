@@ -1,140 +1,65 @@
-import { useCharacters } from "@/hooks/useCharacters";
-import { useEffectOnce } from "@/hooks/useEffectOnce";
-import { useEffect, useState } from "react";
-import { getCharacters } from "rickmortyapi";
-import Box from "./Box";
-import CharacterCard from "./CharacterCard";
-
 import { styled } from "@/stitches.config";
-import type { ApiResponse, Character, Info } from "rickmortyapi/dist/interfaces";
-import LeftArrow from "./svgs/LeftArrow";
-import RightArrow from "./svgs/RightArrow";
+import type { Character, Episode, Location } from "rickmortyapi/dist/interfaces";
 
-interface CharactersProps {
-	page: number;
-	initialProps: ApiResponse<Info<Character[]>>;
+import * as Tabs from "@radix-ui/react-tabs";
+import CharactersTab from "./CharactersTab";
+import EpisodesTab from "./EpisodesTab";
+import LocationsTab from "./LocationsTab";
+
+const Root = styled(Tabs.Root, {
+	width: "100%",
+});
+const List = styled(Tabs.List, {
+	display: "flex",
+});
+
+const Trigger = styled(Tabs.Trigger, {
+	all: "unset",
+
+	color: "$gray10",
+	padding: 6,
+	display: "flex",
+	justifyContent: "center",
+	alignItems: "center",
+	flex: 1,
+	"&:hover": { color: "$gray12" },
+	'&[data-state="active"]': {
+		color: "$gray12",
+		boxShadow: "inset 0 -1px 0 0 currentColor, 0 1px 0 0 currentColor",
+	},
+	"&:focus": { position: "relative", boxShadow: `0 0 0 2px black` },
+});
+
+const Content = styled(Tabs.Content, {
+	marginTop: 8,
+});
+
+interface Props {
+	initialProps: {
+		characters: Character[];
+		locations: Location[];
+		episodes: Episode[];
+	};
 }
 
-const Grid = styled("div", {
-	display: "grid",
-	gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-	gridGap: "12px",
-	margin: "auto",
-	"@sm": {
-		gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-	},
-	"@lg": {
-		gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-	},
-});
-
-const Subtitle = styled("h2", {
-	fontSize: "18px",
-	fontWeight: 400,
-});
-
-const Control = styled("button", {
-	background: "$gray3",
-	border: "1px solid $gray6",
-	borderRadius: 4,
-	padding: "4px 8px",
-	cursor: "pointer",
-
-	transition: "all .1s ease",
-	"&:hover": {
-		backgroundColor: "$gray2",
-	},
-	"&:focus": {
-		borderColor: "$gray5",
-	},
-});
-
-const Characters = ({ page, initialProps }: CharactersProps) => {
-	const [mounted, setMounted] = useState(false);
-	useEffectOnce(() => setMounted(true));
-
-	const [lastPage, setLastPage] = useState<number>(page);
-
-	// initial data, then prefetched page
-	// this is the data displayed
-	const [data, setData] = useState<Character[] | undefined>(initialProps.data.results);
-
-	// always keep the next page ready with SWR
-	// mutated to page +1 on page change
-	const { characters, isError, mutate } = useCharacters(page + 1);
-
-	// fetch the next page, mutate SWR data
-	const fetchCharacters = async (page = 1) => {
-		setData(characters);
-		const res = await getCharacters({ page });
-		mutate(res, false);
-	};
-
-	// execute fetchCharacters every time the page changes
-	useEffect(() => {
-		if (!mounted) return;
-
-		fetchCharacters(page < lastPage ? page - 1 : page);
-	}, [page, fetchCharacters]);
-
-	if (!data || !mounted) return <div>Loading..</div>;
-	if (isError) return <div>Error</div>;
-
+const Gallery = ({ initialProps }: Props) => {
 	return (
-		<Grid>
-			{data.map((character) => (
-				<CharacterCard key={character.id} character={character} />
-			))}
-		</Grid>
-	);
-};
-
-const Episodes = () => {
-	return <Box></Box>;
-};
-
-const Locations = () => {
-	return <Box></Box>;
-};
-
-type displays = "Characters" | "Episodes" | "Locations";
-
-const Gallery = ({ initialProps }: { initialProps: ApiResponse<Info<Character[]>> }) => {
-	const [page, setPage] = useState<number>(1);
-
-	const [display, setDisplay] = useState<displays>("Characters");
-
-	const getComponent = () => {
-		switch (display) {
-			case "Characters":
-				return <Characters initialProps={initialProps} page={page} />;
-			case "Episodes":
-				return <Episodes />;
-			case "Locations":
-				return <Locations />;
-			default:
-				return <div>Invalid display type</div>;
-		}
-	};
-
-	return (
-		<Box css={{ color: "$gray12" }}>
-			<Box
-				css={{
-					display: "flex",
-					alignItems: "center",
-					gap: 10,
-				}}>
-				<Subtitle>Page {page}</Subtitle>
-				<Control onClick={() => setPage((page) => (page > 1 ? page - 1 : page))} disabled={page === 1}>
-					<LeftArrow />
-				</Control>
-				<Control onClick={() => setPage((page) => (page < 42 ? page + 1 : page))} disabled={page === 42}>
-					<RightArrow />
-				</Control>
-			</Box>
-			{getComponent()}
-		</Box>
+		<Root defaultValue="characters">
+			<List>
+				<Trigger value="characters">Characters</Trigger>
+				<Trigger value="locations">Locations</Trigger>
+				<Trigger value="episodes">Episodes</Trigger>
+			</List>
+			<Content value="characters">
+				<CharactersTab characters={initialProps.characters} />
+			</Content>
+			<Content value="locations">
+				<LocationsTab locations={initialProps.locations} />
+			</Content>
+			<Content value="episodes">
+				<EpisodesTab episodes={initialProps.episodes} />
+			</Content>
+		</Root>
 	);
 };
 

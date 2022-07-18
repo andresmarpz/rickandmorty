@@ -10,6 +10,8 @@
 	},
 	"dependencies": {
 		"@radix-ui/colors": "^0.1.8",
+		"@radix-ui/react-popover": "^0.1.7-rc.43",
+		"@radix-ui/react-tabs": "^0.2.0-rc.23",
 		"@stitches/react": "^1.2.8",
 		"next": "12.2.2",
 		"npm": "^8.14.0",

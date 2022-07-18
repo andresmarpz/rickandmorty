@@ -4,10 +4,10 @@ import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 
-import { getCharacters } from "rickmortyapi";
+import { getCharacters, getEpisodes, getLocations } from "rickmortyapi";
 
 import Gallery from "@/components/Gallery";
-import type { ApiResponse, Character, Info } from "rickmortyapi/dist/interfaces";
+import type { Character, Episode, Location } from "rickmortyapi/dist/interfaces";
 
 const Header = styled("header", {
 	display: "flex",
@@ -35,20 +35,26 @@ const Section = styled("section", {
 });
 
 export const getStaticProps: GetStaticProps = async () => {
-	const initialProps = await getCharacters();
+	const characters = await getCharacters();
+	const locations = await getLocations();
+	const episodes = await getEpisodes();
 
 	return {
 		props: {
-			initialProps,
+			characters: characters.data.results,
+			locations: locations.data.results,
+			episodes: episodes.data.results,
 		},
 	};
 };
 
 interface Props {
-	initialProps: ApiResponse<Info<Character[]>>;
+	characters: Character[];
+	locations: Location[];
+	episodes: Episode[];
 }
 
-const Home: NextPage<Props> = ({ initialProps }: Props) => {
+const Home: NextPage<Props> = ({ ...props }: Props) => {
 	return (
 		<Layout>
 			<Head>
@@ -58,13 +64,13 @@ const Home: NextPage<Props> = ({ initialProps }: Props) => {
 			</Head>
 			<main>
 				<Header>
-					<Image src="/assets/images/header.png" width={400} height={100} />
+					<Image src="/assets/images/header.png" alt="Rick and Morty text logo" width={400} height={100} />
 				</Header>
-				<Section></Section>
+				<Section />
 				<Separator />
 				<section>
-					<h1>Gallery</h1>
-					<Gallery initialProps={initialProps} />
+					<h1 style={{ textAlign: "center" }}>Gallery</h1>
+					<Gallery initialProps={props} />
 				</section>
 			</main>
 		</Layout>

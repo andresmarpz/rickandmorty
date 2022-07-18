@@ -1,23 +1,25 @@
 import { getCharacters } from 'rickmortyapi';
 import type { KeyedMutator } from 'swr';
-import useSWR from 'swr';
+import useSWRImmutable from 'swr';
 
 import type { ApiResponse, Character, Info } from 'rickmortyapi/dist/interfaces';
 
-export const useCharacters = (page = 1): {
+export const useCharacters = (page = 1, initialProps?: Character[] | undefined): {
 	characters: Character[] | undefined;
 	mutate: KeyedMutator<ApiResponse<Info<Character[]>>>;
 	isLoading: boolean;
 	isError: boolean;
 } => {
-	const { data, error, mutate } = useSWR('/api/character', async () => {
+	// using immutable swr to avoid unnecesary revalidation since the data won't ever
+	// change unless the page changes.
+	const { data, error, mutate, isValidating } = useSWRImmutable('/api/character', async () => {
 		return await getCharacters({ page: page })
 	});
 
 	return {
-		characters: data?.data.results,
+		characters: data ? data.data.results : initialProps,
 		mutate: mutate,
-		isLoading: !error && !data,
+		isLoading: !error && !data || isValidating,
 		isError: error
 	}
 }
