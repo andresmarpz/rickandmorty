@@ -18,15 +18,20 @@ const List = styled(Tabs.List, {
 const Trigger = styled(Tabs.Trigger, {
     all: 'unset',
 
-    color: '$gray10',
+    color: '$gray11',
     padding: 6,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+    width: '33%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
     '&:hover': { color: '$gray12' },
     '&[data-state="active"]': {
         color: '$gray12',
+        fontWeight: 600,
         boxShadow: 'inset 0 -1px 0 0 currentColor, 0 1px 0 0 currentColor'
     },
     '&:focus': { position: 'relative', boxShadow: `0 0 0 2px black` }
@@ -35,12 +40,6 @@ const Trigger = styled(Tabs.Trigger, {
 const Content = styled(Tabs.Content, {
     marginTop: 8
 });
-
-const Span = styled('span', {
-    color: '$gray10',
-    marginLeft: 4
-});
-
 interface Props {
     initialProps: {
         characters: Character[];
@@ -66,15 +65,9 @@ const Gallery = ({ initialProps }: Props) => {
     return (
         <Root defaultValue="characters" onValueChange={(value) => setValue(value)}>
             <List>
-                <Trigger value="characters">
-                    Characters <Span>(826)</Span>
-                </Trigger>
-                <Trigger value="locations">
-                    Locations <Span>(126)</Span>
-                </Trigger>
-                <Trigger value="episodes">
-                    Episodes <Span>(51)</Span>
-                </Trigger>
+                <Trigger value="characters">Characters</Trigger>
+                <Trigger value="locations">Locations</Trigger>
+                <Trigger value="episodes">Episodes</Trigger>
             </List>
             <Content value="characters" forceMount hidden={value !== 'characters'}>
                 <CharactersTab characters={initialProps.characters} />

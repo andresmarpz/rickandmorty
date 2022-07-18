@@ -4,7 +4,7 @@ import Separator from './Separator';
 
 const StyledLink = styled('a', {
     textDecoration: 'none',
-    color: '$gray11',
+    color: '$gray12',
     fontWeight: 500,
 
     transition: 'color .1s ease',
@@ -21,7 +21,7 @@ const Footer = () => {
                 css={{
                     marginTop: 16,
                     padding: '0 12px 48px',
-                    color: '$gray10'
+                    color: '$gray11'
                 }}>
                 <Box>
                     <StyledLink

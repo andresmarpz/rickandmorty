@@ -1,3 +1,4 @@
+import RickAndMortyLogo from '@/public/assets/images/header.png';
 import { styled } from '@/stitches.config';
 import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
@@ -12,7 +13,9 @@ import type { Character, Episode, Location } from 'rickmortyapi/dist/interfaces'
 const Header = styled('header', {
     display: 'flex',
     justifyContent: 'center',
-    padding: 16
+    padding: 16,
+    width: '70%',
+    margin: 'auto'
 });
 
 const Section = styled('section', {
@@ -57,12 +60,7 @@ const Home: NextPage<Props> = ({ ...props }: Props) => {
             </Head>
             <main>
                 <Header>
-                    <Image
-                        src="/assets/images/header.png"
-                        alt="Rick and Morty text logo"
-                        width={400}
-                        height={100}
-                    />
+                    <Image alt="Rick and Morty text logo" src={RickAndMortyLogo} />
                 </Header>
                 <Section />
                 <Separator css={{ marginTop: 0 }} />

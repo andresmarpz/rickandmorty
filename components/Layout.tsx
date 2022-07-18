@@ -5,6 +5,7 @@ const Layout = ({ children }: React.PropsWithChildren) => {
     return (
         <Box
             css={{
+                minWidth: '250px',
                 maxWidth: '1024px',
                 padding: '0px 12px',
                 margin: 'auto'
