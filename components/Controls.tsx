@@ -1,3 +1,4 @@
+import useStore, { pageType } from '@/management/store';
 import { styled } from '@/stitches.config';
 import Box from './Box';
 import LeftArrow from './svgs/LeftArrow';
@@ -50,13 +51,14 @@ const Control = styled('button', {
 });
 
 interface Props {
-    page: number;
-    setPage: (page: number) => void;
+    pageType: pageType;
     loading: boolean;
     max: number;
 }
 
-const Controls = ({ page, setPage, loading, max }: Props) => {
+const Controls = ({ pageType, loading, max }: Props) => {
+    const [page, setPage] = useStore((state) => [state[`${pageType}Page`], state.setPage]);
+
     return (
         <Box
             css={{
@@ -79,7 +81,7 @@ const Controls = ({ page, setPage, loading, max }: Props) => {
                         marginBottom: 10
                     }}>
                     <Control
-                        onClick={() => setPage(page > 1 ? page - 1 : page)}
+                        onClick={() => setPage(pageType, page > 1 ? page - 1 : page)}
                         disabled={page === 1}>
                         <LeftArrow />{' '}
                         <Span css={{ color: page === 1 ? '$gray8' : '$gray11', marginLeft: 8 }}>
@@ -87,7 +89,7 @@ const Controls = ({ page, setPage, loading, max }: Props) => {
                         </Span>
                     </Control>
                     <Control
-                        onClick={() => setPage(page < max ? page + 1 : page)}
+                        onClick={() => setPage(pageType, page < max ? page + 1 : page)}
                         disabled={page === max}>
                         <Span css={{ color: page === max ? '$gray8' : '$gray11', marginRight: 8 }}>
                             next

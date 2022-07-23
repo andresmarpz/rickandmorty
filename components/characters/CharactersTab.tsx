@@ -1,7 +1,7 @@
 import { useCharacters } from '@/hooks/useCharacters';
 import { useEffectOnce } from '@/hooks/useEffectOnce';
+import useStore from '@/management/store';
 import React, { useCallback, useEffect, useState } from 'react';
-import { getCharacters } from 'rickmortyapi';
 import { Character } from 'rickmortyapi/dist/interfaces';
 import Box from '../Box';
 import Controls from '../Controls';
@@ -13,20 +13,19 @@ interface Props {
 }
 
 const CharactersTab = ({ characters: initalCharacters }: Props & React.ComponentProps<'div'>) => {
-    const [page, setPage] = useState<number>(1);
-    const [loading, setLoading] = useState<boolean>(false);
-
     const [mounted, setMounted] = useState(false);
     useEffectOnce(() => setMounted(true));
 
-    const { characters, isError, mutate } = useCharacters(page, initalCharacters);
+    const page = useStore((state) => state.charactersPage);
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const { characters, fetchMore, isError } = useCharacters(page, initalCharacters);
 
     const fetchNewPage = useCallback(async () => {
         setLoading(true);
-        const data = await getCharacters({ page });
+        await fetchMore(page);
         setLoading(false);
-        mutate(data);
-    }, [page, mutate, setLoading]);
+    }, [page, setLoading, fetchMore]);
 
     useEffect(() => {
         if (!mounted) return;
@@ -39,7 +38,7 @@ const CharactersTab = ({ characters: initalCharacters }: Props & React.Component
 
     return (
         <Box>
-            <Controls page={page} setPage={setPage} loading={loading} max={42} />
+            <Controls pageType={'characters'} loading={loading} max={42} />
             <Grid>
                 {characters.map((character) => (
                     <CharacterCard key={character.id} character={character} />
