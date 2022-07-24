@@ -119,7 +119,7 @@ const PopoverComponent = ({ character, children, css }: PopoverProps) => {
     return (
         <PopoverRoot>
             <PopoverTrigger css={{ ...css }}>{children}</PopoverTrigger>
-            <PopoverContent side="top" avoidCollisions={true} collisionTolerance={25}>
+            <PopoverContent side="top" avoidCollisions={true} collisionPadding={25}>
                 <PopoverClose aria-label="Close">
                     <Cross2 />
                 </PopoverClose>
