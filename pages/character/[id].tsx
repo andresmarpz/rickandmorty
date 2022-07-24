@@ -1,7 +1,7 @@
+import BlurImage from '@/components/BlurImage';
 import Box from '@/components/Box';
 import { css, styled } from '@/stitches.config';
 import { GetStaticProps } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { getCharacter, getEpisode } from 'rickmortyapi';
 import { Character, Episode } from 'rickmortyapi/dist/interfaces';
@@ -125,7 +125,7 @@ const CharacterPage = ({ character, episodes }: Props) => {
 							0 16px 16px hsl(0deg 0% 0% / 0.045)
 						`
                     }}>
-                    <Image
+                    <BlurImage
                         alt={`Name ${character.name}, gender ${character.gender}, specie ${character.species}`}
                         src={character.image}
                         objectFit="cover"
