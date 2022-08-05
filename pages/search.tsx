@@ -1,4 +1,5 @@
 import Box from '@/components/Box';
+import Search from '@/components/Search';
 import { css, styled } from '@/stitches.config';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
@@ -108,6 +109,7 @@ const SearchPage = ({ character, location, episode }: Props) => {
         return (
             <Box>
                 <Header />
+                <Search />
                 <h1>No results found.</h1>
             </Box>
         );
@@ -115,6 +117,7 @@ const SearchPage = ({ character, location, episode }: Props) => {
     return (
         <Box>
             <Header />
+            <Search />
             <h1>Results: </h1>
             {character && (
                 <>
